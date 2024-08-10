@@ -70,4 +70,4 @@ npm run test
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) August 2023-present, [Alex Galhardo](https://github.com/AlexGalhardo)
+Copyright (c) August 2024-present, [Alex Galhardo](https://github.com/AlexGalhardo)

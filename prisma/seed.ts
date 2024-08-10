@@ -1,7 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import DateTime from "../src/utils/date-time.util";
 import { Bcrypt } from "../src/utils/bcrypt.util";
-import GenerateRandomToken from "../src/utils/generate-random-token.util";
 
 const prisma = new PrismaClient({
 	errorFormat: "pretty",

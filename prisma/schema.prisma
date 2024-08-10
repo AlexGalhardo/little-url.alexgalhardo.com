@@ -8,24 +8,31 @@ datasource db {
 }
 
 model Users {
-  id                                     String    @id @default(uuid())
-  name                               	 String
-  email                                  String    @unique
-  jwt_token                              String?   @unique
-  password                               String
-  created_at                             String
-  updated_at                             String?
+  id         String  @id @default(uuid())
+  name       String
+  email      String  @unique
+  jwt_token  String? @unique
+  password   String
+  created_at String
+  updated_at String?
+
+  urls       Urls[]
 
   @@map("users")
 }
 
 model Urls {
-  id       		String @id @default(uuid())
-  original     	String @unique
-  code    		String @unique
+  id              String @id @default(uuid())
+  origin          String @unique
+  code            String @unique
+  total_redirects Int
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+
+  user_owner      String?
+  user            Users?   @relation(fields: [user_owner], references: [id])
 
   @@map("urls")
 }

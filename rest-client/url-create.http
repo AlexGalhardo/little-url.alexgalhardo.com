@@ -1,0 +1,6 @@
+POST http://localhost:3000/url
+content-type: application/json
+
+{
+	"url": "https://alguma.coisa"
+}

@@ -5,11 +5,13 @@ import { ConfigModule } from "@nestjs/config";
 import { ValidateToken } from "./middlewares/validate-token.middleware";
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
+import { UrlModule } from "./modules/url.module";
 
 @Module({
     imports: [
         HealthCheckModule,
         AuthModule,
+        UrlModule,
         ConfigModule.forRoot({ isGlobal: true }),
         ThrottlerModule.forRoot([
             {
