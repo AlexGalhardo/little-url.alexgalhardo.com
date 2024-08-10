@@ -1,0 +1,3 @@
+POST http://localhost:3000/check-user-jwt-token
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZjgxMmY4MS0wODM1LTRkM2MtYTQ3NS0yYjQ1NDljMWFjZWEiLCJpYXQiOjE3MjMzMTI4MTd9.WQ3S__DYExfePg-qb-P4mcDaVdpfswkLeTsSIWNSgRg

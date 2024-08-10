@@ -1,0 +1,20 @@
+services:
+    postgres:
+        image: postgres
+        container_name: postgres
+        environment:
+            POSTGRES_PASSWORD: "postgres"
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres:/var/lib/postgresql
+        networks:
+            - network_nerdapi
+
+networks:
+    network_nerdapi:
+        driver: bridge
+
+volumes:
+    postgres:
+        driver: local
