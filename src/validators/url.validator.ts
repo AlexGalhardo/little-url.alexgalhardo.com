@@ -1,3 +1,4 @@
+import { ErrorsMessages } from "src/utils/errors-messages.util";
 import { z } from "zod";
 
 const dnsUrlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
@@ -11,7 +12,7 @@ const validateUrlSchema = z.object({
                 return dnsUrlRegex.test(url);
             },
             {
-                message: "Invalid URL domain",
+                message: ErrorsMessages.INVALID_URL_DOMAIN,
             },
         ),
 });

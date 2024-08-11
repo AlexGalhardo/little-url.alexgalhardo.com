@@ -2,6 +2,7 @@ import GenerateRandomToken from "src/utils/generate-random-token.util";
 import { UrlsRepositoryPort } from "src/repositories/urls.repository";
 import APP_URL from "src/utils/constants.util";
 import validateUrlSchema from "src/validators/url.validator";
+import { ErrorsMessages } from "src/utils/errors-messages.util";
 
 interface UrlCreateUseCaseResponse {
     success: boolean;
@@ -16,15 +17,21 @@ export interface UrlCreateUseCaseDTO {
 }
 
 export interface UrlCreateUseCasePort {
-    execute(urlCreatePayload: UrlCreateUseCaseDTO): Promise<UrlCreateUseCaseResponse>;
+    execute(urlCreatePayload: UrlCreateUseCaseDTO, userJwtToken: string): Promise<UrlCreateUseCaseResponse>;
 }
 
 export default class UrlCreateUseCase implements UrlCreateUseCasePort {
     constructor(private readonly urlsRepository: UrlsRepositoryPort) {}
 
-    async execute(urlCreatePayload: UrlCreateUseCaseDTO): Promise<UrlCreateUseCaseResponse> {
+    async execute(urlCreatePayload: UrlCreateUseCaseDTO, userId: string | null): Promise<UrlCreateUseCaseResponse> {
         try {
             validateUrlSchema.parse(urlCreatePayload);
+
+            try {
+                await fetch(urlCreatePayload.url);
+            } catch (error) {
+                throw new Error(ErrorsMessages.INVALID_URL_DOMAIN);
+            }
 
             const urlAlreadyCreated = await this.urlsRepository.alreadyCreated(urlCreatePayload.url);
 
@@ -34,6 +41,7 @@ export default class UrlCreateUseCase implements UrlCreateUseCasePort {
                 await this.urlsRepository.create({
                     origin: urlCreatePayload.url,
                     code,
+                    user_owner_id: userId,
                 });
 
                 return { success: true, data: { origin: urlCreatePayload.url, shortened_url: `${APP_URL}/${code}` } };

@@ -4,6 +4,7 @@ import { Bcrypt } from "../utils/bcrypt.util";
 import { ErrorsMessages } from "../utils/errors-messages.util";
 import * as jwt from "jsonwebtoken";
 import AuthRegisterValidator from "src/validators/auth-register.validator";
+import DateTime from "src/utils/date-time.util";
 
 interface AuthRegisterUseCaseResponse {
     success: boolean;
@@ -33,7 +34,7 @@ export default class AuthRegisterUseCase implements AuthRegisterUseCasePort {
         if (!emailAlreadyRegistred) {
             const userId = randomUUID();
 
-            const jwt_token = jwt.sign({ userID: userId }, process.env.JWT_SECRET);
+            const jwt_token = jwt.sign({ userId: userId }, process.env.JWT_SECRET);
 
             await this.usersRepository.create({
                 id: userId,
@@ -41,8 +42,7 @@ export default class AuthRegisterUseCase implements AuthRegisterUseCasePort {
                 email,
                 password: await Bcrypt.hash(password),
                 jwt_token,
-                created_at: String(new Date()),
-                updated_at: null,
+                created_at: new Date(),
             });
 
             return { success: true, jwt_token };

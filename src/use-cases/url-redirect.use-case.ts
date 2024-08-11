@@ -1,5 +1,5 @@
 import { UrlsRepositoryPort } from "src/repositories/urls.repository";
-import validateUrlCode from "src/validators/url-code.validator";
+import validateUrlCodeSchema from "src/validators/url-code.validator";
 
 interface UrlRedirectUseCaseResponse {
     success: boolean;
@@ -19,11 +19,14 @@ export default class UrlRedirectUseCase implements UrlRedirectUseCasePort {
 
     async execute(urlRedirectPayload: UrlRedirectUseCaseDTO): Promise<UrlRedirectUseCaseResponse> {
         try {
-            validateUrlCode.parse(urlRedirectPayload);
+            validateUrlCodeSchema.parse(urlRedirectPayload);
 
             const urlCodeFound = await this.urlsRepository.findByCode(urlRedirectPayload.code);
 
-            if (urlCodeFound) return { success: true, redirect: urlCodeFound.origin };
+            if (urlCodeFound) {
+                await this.urlsRepository.incrementTotalRedirects(urlRedirectPayload.code);
+                return { success: true, redirect: urlCodeFound.origin };
+            }
 
             return { success: false };
         } catch (error) {

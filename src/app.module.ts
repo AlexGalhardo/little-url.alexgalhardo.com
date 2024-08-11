@@ -2,10 +2,11 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/c
 import { AuthModule } from "./modules/auth.module";
 import { HealthCheckModule } from "./modules/health-check.module";
 import { ConfigModule } from "@nestjs/config";
-import { ValidateToken } from "./middlewares/validate-token.middleware";
+import { ValidateHeaderAuthorizationBearerJWTToken } from "./middlewares/validate-header-authorization-bearer-jwt-token.middleware";
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
 import { UrlModule } from "./modules/url.module";
+import { SentHeaderAuthorizationBearerJWTToken } from "./middlewares/sent-header-authorization-bearer-jwt-token.middleware";
 
 @Module({
     imports: [
@@ -31,10 +32,14 @@ import { UrlModule } from "./modules/url.module";
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply(ValidateToken)
+            .apply(ValidateHeaderAuthorizationBearerJWTToken)
             .forRoutes(
                 { path: "/check-user-jwt-token", method: RequestMethod.POST },
                 { path: "/logout", method: RequestMethod.POST },
             );
+        // .apply(SentHeaderAuthorizationBearerJWTToken)
+        // .forRoutes(
+        // 	{ path: "/url", method: RequestMethod.POST },
+        // )
     }
 }

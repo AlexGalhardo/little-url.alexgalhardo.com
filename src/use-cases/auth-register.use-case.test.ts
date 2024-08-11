@@ -23,7 +23,7 @@ describe("Test AuthRegisterUseCase", () => {
     it("should register a user", async () => {
         const authRegisterDTO = mock<AuthRegisterDTO>();
         const mockAuthRegisterUseCase = mock<AuthRegisterUseCasePort>();
-        const jwtToken = jwt.sign({ userID: randomUUID() }, "jwtsecret");
+        const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret");
         mockAuthRegisterUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
         const { success, jwt_token } = await mockAuthRegisterUseCase.execute(authRegisterDTO);
 

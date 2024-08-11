@@ -4,6 +4,9 @@ import UrlsRepository, { UrlsRepositoryPort } from "src/repositories/urls.reposi
 import UrlCreateUseCase from "src/use-cases/url-create-use-case";
 import { UrlController } from "src/controllers/url.controller";
 import UrlRedirectUseCase from "src/use-cases/url-redirect.use-case";
+import UrlListAllByUserUseCase from "src/use-cases/url-list-all-by-user.use-case";
+import UrlUpdateByIdUseCase from "src/use-cases/url-update-by-id.use-case";
+import UrlDeleteByIdUseCase from "src/use-cases/url-delete-by-id.use-case";
 
 @Module({
     controllers: [UrlController],
@@ -28,6 +31,27 @@ import UrlRedirectUseCase from "src/use-cases/url-redirect.use-case";
             inject: ["UrlsRepositoryPort"],
             useFactory: (urlsRepository: UrlsRepositoryPort) => {
                 return new UrlRedirectUseCase(urlsRepository);
+            },
+        },
+        {
+            provide: "UrlListAllByUserUseCasePort",
+            inject: ["UrlsRepositoryPort"],
+            useFactory: (urlsRepository: UrlsRepositoryPort) => {
+                return new UrlListAllByUserUseCase(urlsRepository);
+            },
+        },
+        {
+            provide: "UrlUpdateByIdUseCasePort",
+            inject: ["UrlsRepositoryPort"],
+            useFactory: (urlsRepository: UrlsRepositoryPort) => {
+                return new UrlUpdateByIdUseCase(urlsRepository);
+            },
+        },
+        {
+            provide: "UrlDeleteByIdUseCasePort",
+            inject: ["UrlsRepositoryPort"],
+            useFactory: (urlsRepository: UrlsRepositoryPort) => {
+                return new UrlDeleteByIdUseCase(urlsRepository);
             },
         },
     ],

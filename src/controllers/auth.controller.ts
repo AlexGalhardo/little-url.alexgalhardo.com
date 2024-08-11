@@ -1,5 +1,5 @@
-import { Controller, Post, Res, Body, Inject, HttpStatus, Req, Get } from "@nestjs/common";
-import { Request, Response } from "express";
+import { Controller, Post, Res, Body, Inject, HttpStatus } from "@nestjs/common";
+import { Response } from "express";
 import { AuthLoginDTO, AuthLoginUseCasePort } from "../use-cases/auth-login.use-case";
 import { AuthLogoutUseCasePort } from "../use-cases/auth-logout.use-case";
 import { AuthRegisterDTO, AuthRegisterUseCasePort } from "../use-cases/auth-register.use-case";

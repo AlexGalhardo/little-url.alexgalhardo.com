@@ -11,6 +11,10 @@ export default class DateTime {
         return `${date} ${time}`;
     }
 
+    static getTimestampNow() {
+        return Math.floor(Date.now() / 1000);
+    }
+
     static isToday(dateLastAPIRequest: Date) {
         return new Date().getDate() === dateLastAPIRequest.getDate();
     }

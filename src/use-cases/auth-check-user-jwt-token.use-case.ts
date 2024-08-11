@@ -1,9 +1,8 @@
 import { UsersRepositoryPort } from "../repositories/users.repository";
 import { ErrorsMessages } from "../utils/errors-messages.util";
-import * as jwt from "jsonwebtoken";
 
 export interface AuthCheckUserJWTTokenUseCasePort {
-    execute(token: string): Promise<AuthCheckUserJWTTokenUseCaseResponse>;
+    execute(userId: string): Promise<AuthCheckUserJWTTokenUseCaseResponse>;
 }
 
 interface AuthCheckUserJWTTokenUseCaseResponse {
@@ -14,13 +13,10 @@ interface AuthCheckUserJWTTokenUseCaseResponse {
 export default class AuthCheckUserJWTTokenUseCase implements AuthCheckUserJWTTokenUseCasePort {
     constructor(private readonly usersRepository: UsersRepositoryPort) {}
 
-    async execute(token: string): Promise<AuthCheckUserJWTTokenUseCaseResponse> {
-        const { userID } = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;
+    async execute(userId: string): Promise<AuthCheckUserJWTTokenUseCaseResponse> {
+        const userFound = await this.usersRepository.findById(userId);
 
-        if (userID && (await this.usersRepository.findById(userID))) {
-            const { user } = await this.usersRepository.findById(userID);
-            return { success: true, data: user };
-        }
+        if (userFound) return { success: true, data: userFound };
 
         throw new Error(ErrorsMessages.USER_NOT_FOUND);
     }
