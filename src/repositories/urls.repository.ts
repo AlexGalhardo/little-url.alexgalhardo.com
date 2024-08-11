@@ -99,7 +99,27 @@ export default class UrlsRepository implements UrlsRepositoryPort {
     }
 
     public async create({ origin, code, user_owner_id }: UrlCreateRepositoryDTO): Promise<Urls> {
+        const existingUrl = await this.database.urls.findUnique({
+            where: {
+                origin,
+            },
+        });
+
         try {
+            if (existingUrl && existingUrl.deleted_at !== null) {
+                return await this.database.urls.update({
+                    where: {
+                        origin,
+                    },
+                    data: {
+                        deleted_at: null,
+                        user_owner_id,
+                        code,
+                        updated_at: new Date(),
+                    },
+                });
+            }
+
             return await this.database.urls.create({
                 data: {
                     id: randomUUID(),

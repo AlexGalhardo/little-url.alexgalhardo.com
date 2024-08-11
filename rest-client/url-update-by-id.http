@@ -1,5 +1,6 @@
-PATCH http://localhost:3000/urls/:id
+PATCH http://localhost:3000/urls/bb170b86-863b-4e87-b42f-3e432d338b4a
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmEwMTViZS0yZDU3LTQ0ZjYtOTM1Yi00NjE4YjBiYzY2ODEiLCJpYXQiOjE3MjMzODIxNzl9.dZx8OLTlw1BEsVptSDCZfLmvIl9wM-OnvMYAa57wvv4
 
 {
 	"origin": "https://x.com"

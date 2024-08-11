@@ -3,5 +3,5 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmEwMTViZS0yZDU3LTQ0ZjYtOTM1Yi00NjE4YjBiYzY2ODEiLCJpYXQiOjE3MjMzODIxNzl9.dZx8OLTlw1BEsVptSDCZfLmvIl9wM-OnvMYAa57wvv4
 
 {
-	"url": "https://alexgalhardo.com"
+	"url": "https://x.com"
 }

@@ -9,38 +9,40 @@ import { UrlModule } from "./modules/url.module";
 import { SentHeaderAuthorizationBearerJWTToken } from "./middlewares/sent-header-authorization-bearer-jwt-token.middleware";
 
 @Module({
-	imports: [
-		HealthCheckModule,
-		AuthModule,
-		UrlModule,
-		ConfigModule.forRoot({ isGlobal: true }),
-		ThrottlerModule.forRoot([
-			{
-				ttl: 1000, // milliseconds
-				limit: 1, // 1 request each ttl
-			},
-		]),
-	],
-	controllers: [],
-	providers: [
-		{
-			provide: APP_GUARD,
-			useClass: ThrottlerGuard,
-		},
-	],
+    imports: [
+        HealthCheckModule,
+        AuthModule,
+        UrlModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+        ThrottlerModule.forRoot([
+            {
+                ttl: 1000, // milliseconds
+                limit: 1, // 1 request each ttl
+            },
+        ]),
+    ],
+    controllers: [],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: ThrottlerGuard,
+        },
+    ],
 })
 export class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer
-			.apply(ValidateHeaderAuthorizationBearerJWTToken)
-			.forRoutes(
-				{ path: "/check-user-jwt-token", method: RequestMethod.POST },
-				{ path: "/logout", method: RequestMethod.POST },
-				{ path: "/urls", method: RequestMethod.GET },
-			);
-		// .apply(SentHeaderAuthorizationBearerJWTToken)
-		// .forRoutes(
-		// 	{ path: "/url", method: RequestMethod.POST },
-		// )
-	}
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(ValidateHeaderAuthorizationBearerJWTToken)
+            .forRoutes(
+                { path: "/check-user-jwt-token", method: RequestMethod.POST },
+                { path: "/logout", method: RequestMethod.POST },
+                { path: "/urls", method: RequestMethod.GET },
+                { path: "/urls/:id", method: RequestMethod.PATCH },
+                { path: "/urls/:id", method: RequestMethod.DELETE },
+            );
+        // .apply(SentHeaderAuthorizationBearerJWTToken)
+        // .forRoutes(
+        // 	{ path: "/url", method: RequestMethod.POST },
+        // )
+    }
 }

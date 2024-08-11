@@ -1,7 +1,6 @@
 import { Bcrypt } from "../utils/bcrypt.util";
 import { Injectable } from "@nestjs/common";
 import { Database } from "../config/database.config";
-import { ProfileUpdateDTO } from "../dtos/profile-update.dto";
 
 export interface UserUpdated {
     username: string;
@@ -55,25 +54,6 @@ export default class UsersRepository implements UsersRepositoryPort {
                 updated_at: user.updated_at,
             },
         });
-    }
-
-    public async update(userId: string, profileUpdatePayload: ProfileUpdateDTO): Promise<UserUpdated> {
-        const userUpdated = await this.database.users.update({
-            where: {
-                id: userId,
-            },
-            data: {
-                name: profileUpdatePayload.username ? profileUpdatePayload.username : undefined,
-                password: profileUpdatePayload.newPassword
-                    ? await Bcrypt.hash(profileUpdatePayload.newPassword)
-                    : undefined,
-            },
-        });
-
-        return {
-            username: userUpdated.name,
-            email: userUpdated.email,
-        };
     }
 
     public async logout(userId: string): Promise<void> {
