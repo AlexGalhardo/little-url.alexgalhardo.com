@@ -4,10 +4,12 @@ import { PrismaClient } from "@prisma/client";
 @Injectable()
 export class Database extends PrismaClient implements OnModuleInit {
     constructor() {
-        super({
-            log: ["query", "info", "warn", "error"],
-            errorFormat: "minimal",
-        });
+        if (process.env.ENABLE_DATABASE_DEBUG === "true") {
+            super({
+                log: ["query", "info", "warn", "error"],
+                errorFormat: "minimal",
+            });
+        }
     }
 
     async onModuleInit() {

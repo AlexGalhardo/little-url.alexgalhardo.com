@@ -1,14 +1,11 @@
 import { Test } from "@nestjs/testing";
 import { UsersRepositoryPort } from "../repositories/users.repository";
-import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "../use-cases/auth-register.use-case";
+import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "../use-cases/auth-create-account.use-case";
 import { mock } from "jest-mock-extended";
 import { randomUUID } from "node:crypto";
 import * as jwt from "jsonwebtoken";
-import { AuthLoginDTO, AuthLoginUseCasePort } from "../use-cases/auth-login.use-case";
-import { AuthLogoutUseCasePort } from "../use-cases/auth-logout.use-case";
-// import EmailValidator from "../validators/email.validator";
-// import PasswordValidator from "../validators/password.validator";
-// import PhoneValidator from "../validators/phone.validator";
+import { AuthLoginDTO, AuthLoginUseCasePort } from "./auth-login.use-case";
+import { AuthLogoutUseCasePort } from "./auth-logout.use-case";
 
 describe("Test AuthLogoutUseCase", () => {
     beforeAll(async () => {
@@ -27,15 +24,14 @@ describe("Test AuthLogoutUseCase", () => {
         jest.clearAllMocks();
     });
 
-    const userEmail = "emailtest@gmail.com"; // EmailValidator.generate();
-    const userPassword = "testing@123"; // PasswordValidator.generate();
+    const userEmail = "emailtest@gmail.com";
+    const userPassword = "testing@123";
     let loginToken = null;
 
-    it("should register a user", async () => {
+    it("should create user account", async () => {
         const AuthCreateAccountDTO = mock<AuthCreateAccountDTO>({
-            username: "Testing Logout Test",
+            name: "Testing Logout Test",
             email: userEmail,
-            telegramNumber: "1899999999", //PhoneValidator.generate(),
             password: userPassword,
         });
         const mockAuthCreateAccountUseCase = mock<AuthCreateAccountUseCasePort>();

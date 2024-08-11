@@ -6,9 +6,6 @@ import { randomUUID } from "node:crypto";
 import * as jwt from "jsonwebtoken";
 import { AuthLoginDTO, AuthLoginUseCasePort } from "../use-cases/auth-login.use-case";
 import { AuthLogoutUseCasePort } from "../use-cases/auth-logout.use-case";
-// import PasswordValidator from "../validators/password.validator";
-// import EmailValidator from "../validators/email.validator";
-// import PhoneValidator from "../validators/phone.validator";
 
 describe("Test AuthLoginUseCase", () => {
     beforeAll(async () => {
@@ -37,7 +34,7 @@ describe("Test AuthLoginUseCase", () => {
             password: userPassword,
         });
         const mockAuthCreateAccountUseCase = mock<AuthCreateAccountUseCasePort>();
-        const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret");
+        const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret", { expiresIn: "1h" });
         mockAuthCreateAccountUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
         const { success, jwt_token } = await mockAuthCreateAccountUseCase.execute(AuthCreateAccountDTO);
 

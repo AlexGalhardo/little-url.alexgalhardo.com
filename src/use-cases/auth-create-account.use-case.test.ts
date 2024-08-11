@@ -20,7 +20,7 @@ describe("Test AuthCreateAccountUseCase", () => {
         jest.clearAllMocks();
     });
 
-    it("should register a user", async () => {
+    it("should create user account", async () => {
         const AuthCreateAccountDTO = mock<AuthCreateAccountDTO>();
         const mockAuthCreateAccountUseCase = mock<AuthCreateAccountUseCasePort>();
         const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret");

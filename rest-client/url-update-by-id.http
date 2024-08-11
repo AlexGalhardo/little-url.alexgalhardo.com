@@ -1,7 +1,7 @@
-PATCH http://localhost:3000/urls/f8ab1667-672f-43c6-b915-fbccd9ac9c59
+PATCH http://localhost:3000/urls/4a3d8077-e7bf-495c-9ff3-055ebf32e3a6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTNiYmNhMC0wNzk0LTRkMDUtYjk5OS03YjNiNGJlNjg4NDciLCJpYXQiOjE3MjM0MDUwNDAsImV4cCI6MTcyMzQwODY0MH0.8Xcc81-pVQ7np3Zd3awrzuMheNuZhjBoFhzjz22-FqA
 
 {
-	"origin": "https://chatgpt.com"
+	"origin": "https://test.com"
 }
