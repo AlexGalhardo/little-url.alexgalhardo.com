@@ -1,6 +1,6 @@
 import { Test } from "@nestjs/testing";
 import { UsersRepositoryPort } from "../repositories/users.repository";
-import { AuthRegisterDTO, AuthRegisterUseCasePort } from "../use-cases/auth-register.use-case";
+import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "../use-cases/auth-register.use-case";
 import { mock } from "jest-mock-extended";
 import { randomUUID } from "node:crypto";
 import * as jwt from "jsonwebtoken";
@@ -16,7 +16,7 @@ describe("Test AuthLogoutUseCase", () => {
             controllers: [],
             providers: [
                 { provide: "UsersRepositoryPort", useValue: mock<UsersRepositoryPort>() },
-                { provide: "AuthRegisterUseCasePort", useValue: mock<AuthRegisterUseCasePort>() },
+                { provide: "AuthCreateAccountUseCasePort", useValue: mock<AuthCreateAccountUseCasePort>() },
                 { provide: "AuthLoginUseCasePort", useValue: mock<AuthLoginUseCasePort>() },
                 { provide: "AuthLogoutUseCasePort", useValue: mock<AuthLogoutUseCasePort>() },
             ],
@@ -32,16 +32,16 @@ describe("Test AuthLogoutUseCase", () => {
     let loginToken = null;
 
     it("should register a user", async () => {
-        const authRegisterDTO = mock<AuthRegisterDTO>({
+        const AuthCreateAccountDTO = mock<AuthCreateAccountDTO>({
             username: "Testing Logout Test",
             email: userEmail,
             telegramNumber: "1899999999", //PhoneValidator.generate(),
             password: userPassword,
         });
-        const mockAuthRegisterUseCase = mock<AuthRegisterUseCasePort>();
+        const mockAuthCreateAccountUseCase = mock<AuthCreateAccountUseCasePort>();
         const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret");
-        mockAuthRegisterUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
-        const { success, jwt_token } = await mockAuthRegisterUseCase.execute(authRegisterDTO);
+        mockAuthCreateAccountUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
+        const { success, jwt_token } = await mockAuthCreateAccountUseCase.execute(AuthCreateAccountDTO);
 
         expect(success).toBeTruthy();
         expect(jwt_token).toBe(jwtToken);

@@ -8,6 +8,10 @@
 
 ## Development Setup Local
 
+- Prerequisites:
+   - Install NodeJS >= v20: <https://nodejs.org/en/download/>
+   - Install Docker & Docker-compose: <https://docs.docker.com/get-docker>
+
 1. Clone repository
 ```bash
 git clone git@github.com:AlexGalhardo/little-url.alexgalhardo.com.git
@@ -56,7 +60,7 @@ npm run start
 
 ## Tests
 
-a. Run all tests
+a. Run all unit tests
 ```bash
 npm run test
 ```

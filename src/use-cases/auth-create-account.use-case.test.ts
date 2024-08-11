@@ -1,17 +1,17 @@
 import { Test } from "@nestjs/testing";
 import { UsersRepositoryPort } from "../repositories/users.repository";
-import { AuthRegisterDTO, AuthRegisterUseCasePort } from "../use-cases/auth-register.use-case";
+import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "./auth-create-account.use-case";
 import { mock } from "jest-mock-extended";
 import { randomUUID } from "node:crypto";
 import * as jwt from "jsonwebtoken";
 
-describe("Test AuthRegisterUseCase", () => {
+describe("Test AuthCreateAccountUseCase", () => {
     beforeAll(async () => {
         await Test.createTestingModule({
             controllers: [],
             providers: [
                 { provide: "UsersRepositoryPort", useValue: mock<UsersRepositoryPort>() },
-                { provide: "AuthRegisterUseCasePort", useValue: mock<AuthRegisterUseCasePort>() },
+                { provide: "AuthCreateAccountUseCasePort", useValue: mock<AuthCreateAccountUseCasePort>() },
             ],
         }).compile();
     });
@@ -21,11 +21,11 @@ describe("Test AuthRegisterUseCase", () => {
     });
 
     it("should register a user", async () => {
-        const authRegisterDTO = mock<AuthRegisterDTO>();
-        const mockAuthRegisterUseCase = mock<AuthRegisterUseCasePort>();
+        const AuthCreateAccountDTO = mock<AuthCreateAccountDTO>();
+        const mockAuthCreateAccountUseCase = mock<AuthCreateAccountUseCasePort>();
         const jwtToken = jwt.sign({ userId: randomUUID() }, "jwtsecret");
-        mockAuthRegisterUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
-        const { success, jwt_token } = await mockAuthRegisterUseCase.execute(authRegisterDTO);
+        mockAuthCreateAccountUseCase.execute.mockResolvedValueOnce({ success: true, jwt_token: jwtToken });
+        const { success, jwt_token } = await mockAuthCreateAccountUseCase.execute(AuthCreateAccountDTO);
 
         expect(success).toBeTruthy();
         expect(jwt_token).toBe(jwtToken);

@@ -6,7 +6,6 @@ import { ValidateHeaderAuthorizationBearerJWTToken } from "./middlewares/validat
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
 import { UrlModule } from "./modules/url.module";
-import { SentHeaderAuthorizationBearerJWTToken } from "./middlewares/sent-header-authorization-bearer-jwt-token.middleware";
 
 @Module({
     imports: [
@@ -34,15 +33,10 @@ export class AppModule implements NestModule {
         consumer
             .apply(ValidateHeaderAuthorizationBearerJWTToken)
             .forRoutes(
-                { path: "/check-user-jwt-token", method: RequestMethod.POST },
-                { path: "/logout", method: RequestMethod.POST },
+                { path: "/auth/logout", method: RequestMethod.POST },
                 { path: "/urls", method: RequestMethod.GET },
                 { path: "/urls/:id", method: RequestMethod.PATCH },
                 { path: "/urls/:id", method: RequestMethod.DELETE },
             );
-        // .apply(SentHeaderAuthorizationBearerJWTToken)
-        // .forRoutes(
-        // 	{ path: "/url", method: RequestMethod.POST },
-        // )
     }
 }

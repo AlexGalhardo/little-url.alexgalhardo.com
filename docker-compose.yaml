@@ -1,7 +1,7 @@
 services:
-    postgres:
+    little_url_postgres:
         image: postgres
-        container_name: postgres
+        container_name: little_url_postgres
         environment:
             POSTGRES_PASSWORD: "postgres"
         ports:
@@ -9,10 +9,27 @@ services:
         volumes:
             - postgres:/var/lib/postgresql
         networks:
-            - network_nerdapi
+            - network
+
+    # little_url_api:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     container_name: little_url_api
+    #     environment:
+    #         DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres?schema=public"
+    #         PRISMA_MIGRATE_SKIP_CREATE_DATABASE: "true"
+    #     ports:
+    #         - "3000:3000"
+    #     depends_on:
+    #         - postgres
+    #     networks:
+    #         - network
+    #     command: >
+    #         bash -c "npm run prisma:migrate && npm run dev"
 
 networks:
-    network_nerdapi:
+    network:
         driver: bridge
 
 volumes:

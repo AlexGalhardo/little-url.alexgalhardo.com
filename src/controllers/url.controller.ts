@@ -1,7 +1,7 @@
 import { Controller, Post, Res, Body, Inject, HttpStatus, Get, Req, Delete, Patch } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Response, Request } from "express";
-import UrlCreateUseCase, { UrlCreateUseCaseDTO } from "src/use-cases/url-create-use-case";
+import UrlCreateUseCase, { UrlCreateUseCaseDTO } from "src/use-cases/url-create.use-case";
 import { Url } from "../entities/url.entity";
 import UrlRedirectUseCase from "src/use-cases/url-redirect.use-case";
 import * as jwt from "jsonwebtoken";
@@ -9,6 +9,7 @@ import UrlListAllByUserUseCase from "src/use-cases/url-list-all-by-user.use-case
 import UrlUpdateByIdUseCase, { UrlUpdateByIdUseCaseDTO } from "src/use-cases/url-update-by-id.use-case";
 import UrlDeleteByIdUseCase from "src/use-cases/url-delete-by-id.use-case";
 import { ErrorsMessages } from "src/utils/errors-messages.util";
+import VerifyJwtTokenUseCase from "src/use-cases/verify-jwt-token.use-case";
 
 interface UrlUseCaseResponse {
     success: boolean;
@@ -34,7 +35,33 @@ export class UrlController implements UrlControllerPort {
         @Inject("UrlListAllByUserUseCasePort") private readonly urlListAllByUserUseCase: UrlListAllByUserUseCase,
         @Inject("UrlUpdateByIdUseCasePort") private readonly urlUpdateByIdUseCase: UrlUpdateByIdUseCase,
         @Inject("UrlDeleteByIdUseCasePort") private readonly urlDeleteByIdUseCase: UrlDeleteByIdUseCase,
+        @Inject("VerifyJwtTokenUseCasePort") private readonly verifyJwtTokenUseCase: VerifyJwtTokenUseCase,
     ) {}
+
+    private async verifyJwtToken(request: Request): Promise<string | null> {
+        if (
+            request.headers?.authorization &&
+            request.headers.authorization.startsWith("Bearer") &&
+            request.headers.authorization.split(" ")[1]
+        ) {
+            const jwtToken = request.headers.authorization.split(" ")[1];
+
+            console.log("jwtToken => ", jwtToken);
+
+            try {
+                await this.verifyJwtTokenUseCase.execute(jwtToken);
+
+                const { userId } = jwt.verify(jwtToken, process.env.JWT_SECRET) as jwt.JwtPayload;
+
+                console.log("userId => ", userId);
+
+                return userId;
+            } catch (error) {
+                throw new Error(error.message);
+            }
+        }
+        return null;
+    }
 
     @Post("/urls")
     @ApiResponse({ status: 200, type: Url })
@@ -44,20 +71,8 @@ export class UrlController implements UrlControllerPort {
         @Res() response: Response,
     ): Promise<Response<UrlUseCaseResponse>> {
         try {
-            let idUser = null;
-            if (
-                request.headers?.authorization &&
-                request.headers.authorization.startsWith("Bearer") &&
-                request.headers.authorization.split(" ")[1]
-            ) {
-                const token = request.headers.authorization.split(" ")[1];
-
-                const { userId } = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;
-
-                idUser = userId;
-            }
-            // if (response.locals.userId) userId = response.locals.userId;
-            const { data } = await this.urlCreateUseCase.execute(createUrlPayload, idUser);
+            const userId = await this.verifyJwtToken(request);
+            const { data } = await this.urlCreateUseCase.execute(createUrlPayload, userId);
             return response.status(HttpStatus.OK).json({ success: true, data });
         } catch (error: any) {
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
@@ -66,9 +81,9 @@ export class UrlController implements UrlControllerPort {
 
     @Get("/urls")
     @ApiResponse({ status: 200, type: Url })
-    async listAllUrlsByUser(@Req() request: Request, @Res() response: Response): Promise<Response<UrlUseCaseResponse>> {
+    async listAllUrlsByUser(@Res() response: Response): Promise<Response<UrlUseCaseResponse>> {
         try {
-            const userId = response.locals.userId;
+            const { userId } = response.locals;
             const { success, data } = await this.urlListAllByUserUseCase.execute({ userId });
             if (success) return response.status(HttpStatus.OK).json({ success: true, data });
             return response

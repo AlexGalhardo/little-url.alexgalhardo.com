@@ -1,7 +1,7 @@
 POST http://localhost:3000/urls
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmEwMTViZS0yZDU3LTQ0ZjYtOTM1Yi00NjE4YjBiYzY2ODEiLCJpYXQiOjE3MjMzODIxNzl9.dZx8OLTlw1BEsVptSDCZfLmvIl9wM-OnvMYAa57wvv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTNiYmNhMC0wNzk0LTRkMDUtYjk5OS03YjNiNGJlNjg4NDciLCJpYXQiOjE3MjM0MDUwNDAsImV4cCI6MTcyMzQwODY0MH0.8Xcc81-pVQ7np3Zd3awrzuMheNuZhjBoFhzjz22-FqA
 
 {
-	"url": "https://x.com"
+	"url": "https://microsoft.com"
 }

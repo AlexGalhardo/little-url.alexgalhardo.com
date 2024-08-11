@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const AuthRegisterValidator = z.object({
+const AuthCreateAccountValidator = z.object({
     name: z.string().min(4, "Username must have at least 4 characters"),
     email: z.string().email("Invalid email format"),
     password: z
@@ -12,4 +12,4 @@ const AuthRegisterValidator = z.object({
         .refine((val) => /[!@#$%^&*(),.?":{}|<>]/.test(val), "password must contain at least one special character"),
 });
 
-export default AuthRegisterValidator;
+export default AuthCreateAccountValidator;

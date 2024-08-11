@@ -31,17 +31,18 @@ export default class AuthLoginUseCase implements AuthLoginUseCasePort {
             const user = await this.usersRepository.findByEmail(email);
 
             if (user) {
-                if (!(await Bcrypt.compare(password, user.password))) {
-                    return { success: false, message: ErrorsMessages.EMAIL_OR_PASSWORD_INVALID };
-                }
+                const passwordIsValid = await Bcrypt.compare(password, user.password);
 
-                const jwt_token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
-                user.jwt_token = jwt_token;
+                if (!passwordIsValid) return { success: false, message: ErrorsMessages.EMAIL_OR_PASSWORD_INVALID };
+
+                const jwt_token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+                await this.usersRepository.updateJwtToken(user.id, jwt_token);
 
                 return { success: true, jwt_token };
             }
 
-            throw new Error(ErrorsMessages.USER_NOT_FOUND);
+            throw new Error(ErrorsMessages.EMAIL_OR_PASSWORD_INVALID);
         }
 
         throw new Error(ErrorsMessages.EMAIL_OR_PASSWORD_INVALID);

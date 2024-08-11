@@ -5,8 +5,9 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "jwt_token" TEXT,
     "password" TEXT NOT NULL,
-    "created_at" TEXT NOT NULL,
-    "updated_at" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+    "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -20,7 +21,7 @@ CREATE TABLE "urls" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
-    "user_owner" TEXT NOT NULL,
+    "user_owner_id" TEXT,
 
     CONSTRAINT "urls_pkey" PRIMARY KEY ("id")
 );
@@ -38,4 +39,4 @@ CREATE UNIQUE INDEX "urls_origin_key" ON "urls"("origin");
 CREATE UNIQUE INDEX "urls_code_key" ON "urls"("code");
 
 -- AddForeignKey
-ALTER TABLE "urls" ADD CONSTRAINT "urls_user_owner_fkey" FOREIGN KEY ("user_owner") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "urls" ADD CONSTRAINT "urls_user_owner_id_fkey" FOREIGN KEY ("user_owner_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;

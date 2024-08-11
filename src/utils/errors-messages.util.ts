@@ -8,8 +8,8 @@ export enum ErrorsMessages {
     PASSWORDS_NOT_EQUAL = "Passwords not equal",
     EMAIL_INVALID = "Email invalid",
     PASSWORD_INSECURE = "Password is insecure",
-    RESET_PASSWORD_TOKEN_EXPIRED = "Reset password token expired",
-    EMAIL_ALREADY_REGISTRED = "Email already registred",
+    JWT_TOKEN_INVALID = "JWT Token Invalid",
+    EMAIL_ALREADY_Registered = "Email already Registered",
     EMAIL_OR_PASSWORD_INVALID = "Email and/or Password Invalid",
     INVALID_URL_DOMAIN = "Invalid URL domain",
 }

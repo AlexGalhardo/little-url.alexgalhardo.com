@@ -3,9 +3,8 @@ import { AuthController } from "../controllers/auth.controller";
 import UsersRepository, { UsersRepositoryPort } from "../repositories/users.repository";
 import AuthLoginUseCase from "../use-cases/auth-login.use-case";
 import AuthLogoutUseCase from "../use-cases/auth-logout.use-case";
-import AuthRegisterUseCase from "../use-cases/auth-register.use-case";
+import AuthCreateAccountUseCase from "../use-cases/auth-create-account.use-case";
 import { Database } from "../config/database.config";
-import AuthCheckUserJWTTokenUseCase from "../use-cases/auth-check-user-jwt-token.use-case";
 
 @Module({
     controllers: [AuthController],
@@ -26,10 +25,10 @@ import AuthCheckUserJWTTokenUseCase from "../use-cases/auth-check-user-jwt-token
             },
         },
         {
-            provide: "AuthRegisterUseCasePort",
+            provide: "AuthCreateAccountUseCasePort",
             inject: ["UsersRepositoryPort"],
             useFactory: (usersRepository: UsersRepositoryPort) => {
-                return new AuthRegisterUseCase(usersRepository);
+                return new AuthCreateAccountUseCase(usersRepository);
             },
         },
         {
@@ -37,13 +36,6 @@ import AuthCheckUserJWTTokenUseCase from "../use-cases/auth-check-user-jwt-token
             inject: ["UsersRepositoryPort"],
             useFactory: (usersRepository: UsersRepositoryPort) => {
                 return new AuthLogoutUseCase(usersRepository);
-            },
-        },
-        {
-            provide: "AuthCheckUserJWTTokenUseCasePort",
-            inject: ["UsersRepositoryPort"],
-            useFactory: (usersRepository: UsersRepositoryPort) => {
-                return new AuthCheckUserJWTTokenUseCase(usersRepository);
             },
         },
     ],
