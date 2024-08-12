@@ -47,14 +47,10 @@ export class UrlController implements UrlControllerPort {
         ) {
             const jwtToken = request.headers.authorization.split(" ")[1];
 
-            console.log("jwtToken => ", jwtToken);
-
             try {
                 await this.verifyJwtTokenUseCase.execute(jwtToken);
 
                 const { userId } = jwt.verify(jwtToken, process.env.JWT_SECRET) as jwt.JwtPayload;
-
-                console.log("userId => ", userId);
 
                 return userId;
             } catch (error) {
