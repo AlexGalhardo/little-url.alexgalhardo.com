@@ -2,10 +2,12 @@ import { Controller, Post, Res, Body, Inject, HttpStatus } from "@nestjs/common"
 import { Response } from "express";
 import { AuthLoginDTO, AuthLoginUseCasePort } from "../use-cases/auth-login.use-case";
 import { AuthLogoutUseCasePort } from "../use-cases/auth-logout.use-case";
-import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "../use-cases/auth-create-account.use-case";
-import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Auth } from "../entities/auth.entity";
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 import TelegramLog from "../config/telegram-logger.config";
+import { SwaggerAuthCreateAccountDTO } from "src/swagger/auth-create-account.swagger";
+import { SwaggerAuthResponse } from "src/swagger/auth-response.swagger";
+import { AuthCreateAccountUseCasePort } from "src/use-cases/auth-create-account.use-case";
+import { SwaggerAuthLoginDTO } from "src/swagger/auth-login.swagger";
 
 interface AuthUseCaseResponse {
     success: boolean;
@@ -17,7 +19,7 @@ interface AuthUseCaseResponse {
 interface AuthControllerPort {
     login(authLoginDTO: AuthLoginDTO, response: Response): Promise<Response<AuthUseCaseResponse>>;
     createAccount(
-        AuthCreateAccountDTO: AuthCreateAccountDTO,
+        AuthCreateAccountDTO: SwaggerAuthCreateAccountDTO,
         response: Response,
     ): Promise<Response<AuthUseCaseResponse>>;
     logout(response: Response): Promise<Response<AuthUseCaseResponse>>;
@@ -33,39 +35,42 @@ export class AuthController implements AuthControllerPort {
     ) {}
 
     @Post("/login")
-    @ApiResponse({ status: 200, type: Auth })
+    @ApiBody({ type: SwaggerAuthLoginDTO })
+    @ApiResponse({ status: 200, type: SwaggerAuthResponse })
     async login(
         @Body() authLoginPayload: AuthLoginDTO,
         @Res() response: Response,
     ): Promise<Response<AuthUseCaseResponse>> {
         try {
-            const { success, jwt_token, message } = await this.authLoginUseCase.execute(authLoginPayload);
+            const { success, jwt_token, error } = await this.authLoginUseCase.execute(authLoginPayload);
             if (success === true) return response.status(HttpStatus.OK).json({ success: true, jwt_token });
-            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message });
+            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, error });
         } catch (error: any) {
             TelegramLog.error(`ERROR Auth Login: ${error.message}`); // DataDog, Sentry, etc here
-            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
+            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, error: error.message });
         }
     }
 
     @Post("/create-account")
-    @ApiResponse({ status: 201, type: Auth })
+    @ApiBody({ type: SwaggerAuthCreateAccountDTO })
+    @ApiResponse({ status: 201, type: SwaggerAuthResponse })
     async createAccount(
-        @Body() AuthCreateAccountPayload: AuthCreateAccountDTO,
+        @Body() AuthCreateAccountPayload: SwaggerAuthCreateAccountDTO,
         @Res() response: Response,
     ): Promise<Response<AuthUseCaseResponse>> {
         try {
             const { success, jwt_token } = await this.AuthCreateAccountUseCase.execute(AuthCreateAccountPayload);
-            if (success === true) return response.status(HttpStatus.OK).json({ success: true, jwt_token });
+            if (success === true) return response.status(HttpStatus.CREATED).json({ success: true, jwt_token });
+            return response.status(HttpStatus.BAD_REQUEST).json({ success: false });
         } catch (error: any) {
             TelegramLog.error(`ERROR Auth Create Account: ${error.message}`); // DataDog, Sentry, etc here
-            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
+            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, error: error.message });
         }
     }
 
     @Post("/logout")
     @ApiBearerAuth()
-    @ApiResponse({ status: 200, type: Auth })
+    @ApiResponse({ status: 200, type: SwaggerAuthResponse })
     async logout(@Res() response: Response): Promise<Response<AuthUseCaseResponse>> {
         try {
             const { userId } = response.locals;
@@ -73,7 +78,7 @@ export class AuthController implements AuthControllerPort {
             if (success) return response.status(HttpStatus.OK).json({ success: true });
         } catch (error: any) {
             TelegramLog.error(`ERROR Auth Logout: ${error.message}`); // DataDog, Sentry, etc here
-            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
+            return response.status(HttpStatus.BAD_REQUEST).json({ success: false, error: error.message });
         }
     }
 }
