@@ -47,6 +47,6 @@ export default class AuthCreateAccountUseCase implements AuthCreateAccountUseCas
             return { success: true, jwt_token };
         }
 
-        throw new Error(ErrorsMessages.EMAIL_ALREADY_Registered);
+        throw new Error(ErrorsMessages.EMAIL_ALREADY_REGISTERED);
     }
 }

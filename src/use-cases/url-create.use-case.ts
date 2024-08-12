@@ -1,4 +1,4 @@
-import GenerateRandomToken from "src/utils/generate-random-token.util";
+import generateRandomToken from "src/utils/generate-random-token.util";
 import { UrlsRepositoryPort } from "src/repositories/urls.repository";
 import { APP_URL } from "src/utils/constants.util";
 import validateUrlSchema from "src/validators/url.validator";
@@ -36,7 +36,7 @@ export default class UrlCreateUseCase implements UrlCreateUseCasePort {
             const urlAlreadyCreated = await this.urlsRepository.alreadyCreated(urlCreatePayload.url);
 
             if (!urlAlreadyCreated) {
-                const code = GenerateRandomToken();
+                const code = generateRandomToken();
 
                 await this.urlsRepository.create({
                     origin: urlCreatePayload.url,
