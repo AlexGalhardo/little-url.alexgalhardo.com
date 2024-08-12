@@ -1,4 +1,5 @@
 POST http://localhost:3000/auth/logout
+# POST https://little-url.alexgalhardo.com/auth/logout
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTNiYmNhMC0wNzk0LTRkMDUtYjk5OS03YjNiNGJlNjg4NDciLCJpYXQiOjE3MjM0MDM2NzEsImV4cCI6MTcyMzQwNzI3MX0.sndnpSH4zVc4hobVOTaOBpcu_MU8Ctcgszg7jgaK_Gk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxY2JiM2ZkYS1jMmExLTQ3YmMtODI0NC0wMTZjZTlmYjlhYzkiLCJpYXQiOjE3MjM0NzEzODYsImV4cCI6MTcyMzQ3NDk4Nn0.fwTzlRn1yMulrEfOQqVT-SyQmF7_kb-_shfGbhDqs2k
 

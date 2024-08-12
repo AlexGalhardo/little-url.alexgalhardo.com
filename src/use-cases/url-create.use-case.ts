@@ -1,6 +1,6 @@
 import GenerateRandomToken from "src/utils/generate-random-token.util";
 import { UrlsRepositoryPort } from "src/repositories/urls.repository";
-import APP_URL from "src/utils/constants.util";
+import { APP_URL } from "src/utils/constants.util";
 import validateUrlSchema from "src/validators/url.validator";
 import { ErrorsMessages } from "src/utils/errors-messages.util";
 

@@ -1,5 +1,6 @@
 import * as https from "https";
 import "dotenv/config";
+import { ENABLE_TELEGRAM_LOGS } from "src/utils/constants.util";
 
 class TelegramLogger {
     private baseUrl: string;
@@ -26,13 +27,15 @@ class TelegramLogger {
     }
 
     private log(logType: string, message: string) {
-        const messageToSend = `${logType}\n\n ${message} \n\n <b>Created at:</b> ${new Date().toISOString()}`;
+        if (ENABLE_TELEGRAM_LOGS) {
+            const messageToSend = `${logType}\n\n ${message} \n\n <b>Created at:</b> ${new Date().toISOString()}`;
 
-        const urlParams = encodeURI(`chat_id=${this.channelId}&text=${messageToSend}&parse_mode=HTML`);
+            const urlParams = encodeURI(`chat_id=${this.channelId}&text=${messageToSend}&parse_mode=HTML`);
 
-        const url = `${this.baseUrl}/sendMessage?${urlParams}`;
+            const url = `${this.baseUrl}/sendMessage?${urlParams}`;
 
-        this.sendRequest(url);
+            this.sendRequest(url);
+        }
     }
 
     private sendRequest(url: string): void {

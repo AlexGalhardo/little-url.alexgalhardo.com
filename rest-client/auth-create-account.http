@@ -1,4 +1,5 @@
 POST http://localhost:3000/auth/create-account
+# POST https://little-url.alexgalhardo.com/auth/create-account
 content-type: application/json
 
 {
