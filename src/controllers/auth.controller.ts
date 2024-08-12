@@ -5,6 +5,7 @@ import { AuthLogoutUseCasePort } from "../use-cases/auth-logout.use-case";
 import { AuthCreateAccountDTO, AuthCreateAccountUseCasePort } from "../use-cases/auth-create-account.use-case";
 import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Auth } from "../entities/auth.entity";
+import TelegramLog from "../config/telegram-logger.config";
 
 interface AuthUseCaseResponse {
     success: boolean;
@@ -42,6 +43,7 @@ export class AuthController implements AuthControllerPort {
             if (success === true) return response.status(HttpStatus.OK).json({ success: true, jwt_token });
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message });
         } catch (error: any) {
+            TelegramLog.error(`ERROR Auth Login: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -56,6 +58,7 @@ export class AuthController implements AuthControllerPort {
             const { success, jwt_token } = await this.AuthCreateAccountUseCase.execute(AuthCreateAccountPayload);
             if (success === true) return response.status(HttpStatus.OK).json({ success: true, jwt_token });
         } catch (error: any) {
+            TelegramLog.error(`ERROR Auth Create Account: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -69,6 +72,7 @@ export class AuthController implements AuthControllerPort {
             const { success } = await this.authLogoutUseCase.execute(userId);
             if (success) return response.status(HttpStatus.OK).json({ success: true });
         } catch (error: any) {
+            TelegramLog.error(`ERROR Auth Logout: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }

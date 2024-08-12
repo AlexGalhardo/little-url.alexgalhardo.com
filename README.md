@@ -6,10 +6,41 @@
 
 - Code Challenge to Create a URL Shortener
 
+## Technologies
+- [NodeJS](https://nodejs.org/en)
+- [NestJS](https://nestjs.com/)
+- [PrismaORM](https://www.prisma.io/)
+- [Docker](https://docs.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+
+## Features
+- [x] CRUD API REST
+- [x] Unit Tests using Jest Mocks
+- [x] Git Hooks using Husky (pre-commit and pre-push)
+- [x] Following clean architecture principles (use-case, repositories, dependency injection, IoC, etc)
+- [x] CI/CD using Github Actions (linter, tests, build)
+- [x] Middlewares to verify authentication & authorization
+- [x] Migrations & Seeds & Database GUI
+- [x] Swagger OpenAPI Specification v3 Documentation
+- [x] Multi tenant (single database, shared schema)
+- [x] Logs & Monitoring
+- [x] Zod validation for payload requests
+- [x] Security configs (rate-limiter, cors, exception errors handlers, etc)
+
+## How to improve
+- [ ] API Gateway using KrankeD
+- [ ] Kubernetes for horizontal scaling
+- [ ] Terraform
+- [ ] Integration tests
+- [ ] Load Balancer
+- [ ] Improve healthcheck endpoint (databases conections, memory usage, etc)
+- [ ] Use Git tags for releases
+- [ ] Improve multi tenant approach
+
 ## Development Setup Local
 
 - Prerequisites:
-   - Install NodeJS >= v20: <https://nodejs.org/en/download/>
+   - Install NodeJS version >= 20: <https://nodejs.org/en/download/>
    - Install Docker & Docker-compose: <https://docs.docker.com/get-docker>
 
 1. Clone repository
@@ -67,8 +98,13 @@ npm run test
 
 ## API Requests
 
-- You can see the HTTP Requests references inside folder [**rest-client/**](rest-client/)
-- You can also see Swagger API documentation in: <http://localhost:3000/api>
+- You can see the HTTP Requests references inside folder [rest-client/](rest-client/)
+- You can also see Swagger API documentation in:
+   - Localhost: <http://localhost:3000/api>
+   - Live: <https://little-url.alexgalhardo.com/api>
+
+## Documentation
+- Read and add usefull documentation (markdown, notes, images, best practices, etc) about this project inside folder [docs/](docs/)
 
 ## License
 

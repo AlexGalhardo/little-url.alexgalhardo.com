@@ -10,6 +10,7 @@ import UrlUpdateByIdUseCase, { UrlUpdateByIdUseCaseDTO } from "src/use-cases/url
 import UrlDeleteByIdUseCase from "src/use-cases/url-delete-by-id.use-case";
 import { ErrorsMessages } from "src/utils/errors-messages.util";
 import VerifyJwtTokenUseCase from "src/use-cases/verify-jwt-token.use-case";
+import TelegramLog from "src/config/telegram-logger.config";
 
 interface UrlUseCaseResponse {
     success: boolean;
@@ -75,6 +76,7 @@ export class UrlController implements UrlControllerPort {
             const { data } = await this.urlCreateUseCase.execute(createUrlPayload, userId);
             return response.status(HttpStatus.OK).json({ success: true, data });
         } catch (error: any) {
+            TelegramLog.error(`ERROR createUrl: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -90,6 +92,7 @@ export class UrlController implements UrlControllerPort {
                 .status(HttpStatus.BAD_REQUEST)
                 .json({ success: false, message: ErrorsMessages.USER_NOT_FOUND });
         } catch (error: any) {
+            TelegramLog.error(`ERROR listAllUrlsByUser: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -107,6 +110,7 @@ export class UrlController implements UrlControllerPort {
             if (success) return response.status(HttpStatus.OK).json({ success: true, data });
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: "Url code not found" });
         } catch (error: any) {
+            TelegramLog.error(`ERROR updateUrl: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -120,6 +124,7 @@ export class UrlController implements UrlControllerPort {
             if (success) return response.status(HttpStatus.OK).json({ success: true });
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: "Url not found" });
         } catch (error: any) {
+            TelegramLog.error(`ERROR deleteUrl: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }
@@ -133,6 +138,7 @@ export class UrlController implements UrlControllerPort {
             if (success) response.redirect(redirect);
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: "Url code not found" });
         } catch (error: any) {
+            TelegramLog.error(`ERROR redirect: ${error.message}`); // DataDog, Sentry, etc here
             return response.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
         }
     }

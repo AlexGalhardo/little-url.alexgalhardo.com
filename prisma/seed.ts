@@ -16,7 +16,7 @@ const seedDatabase = async () => {
 				email: "default@gmail.com",
 				jwt_token: null,
 				password: await Bcrypt.hash("defaultQWE!123"),
-				created_at: String(new Date()),
+				created_at: new Date(),
 				updated_at: null
 			}
 		],

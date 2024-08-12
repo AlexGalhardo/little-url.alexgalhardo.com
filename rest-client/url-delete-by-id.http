@@ -1,2 +1,3 @@
-DELETE http://localhost:3000/urls/898580a8-8999-45eb-b540-dda2daca52fe
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTNiYmNhMC0wNzk0LTRkMDUtYjk5OS03YjNiNGJlNjg4NDciLCJpYXQiOjE3MjM0MDUwNDAsImV4cCI6MTcyMzQwODY0MH0.8Xcc81-pVQ7np3Zd3awrzuMheNuZhjBoFhzjz22-FqA
+# DELETE http://localhost:3000/urls/8e58ff93-88ce-471e-badf-6ca62da500a1
+DELETE https://little-url.alexgalhardo.com/urls/8e58ff93-88ce-471e-badf-6ca62da500a1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxY2JiM2ZkYS1jMmExLTQ3YmMtODI0NC0wMTZjZTlmYjlhYzkiLCJpYXQiOjE3MjM0NzE0MjAsImV4cCI6MTcyMzQ3NTAyMH0.i7vi7GDCS7Y6t17fD3RERc9NaXXArMIGkIpIbe7M2ss
