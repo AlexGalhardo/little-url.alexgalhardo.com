@@ -5,11 +5,10 @@ export enum ErrorsMessages {
     USERNAME_INVALID = "Username invalid",
     PASSWORD_IS_INVALID = "Password invalid",
     PASSWORD_IS_REQUIRED = "Password required",
-    PASSWORDS_NOT_EQUAL = "Passwords not equal",
     EMAIL_INVALID = "Email invalid",
     PASSWORD_INSECURE = "Password is insecure",
     JWT_TOKEN_INVALID = "JWT Token Invalid",
-    EMAIL_ALREADY_Registered = "Email already Registered",
+    EMAIL_ALREADY_REGISTERED = "Email already Registered",
     EMAIL_OR_PASSWORD_INVALID = "Email and/or Password Invalid",
     INVALID_URL_DOMAIN = "Invalid URL domain",
 }
