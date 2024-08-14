@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const dnsUrlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
 
-const validateUrlSchema = z.object({
+const UrlValidator = z.object({
     url: z
         .string()
         .url()
@@ -17,4 +17,4 @@ const validateUrlSchema = z.object({
         ),
 });
 
-export default validateUrlSchema;
+export default UrlValidator;

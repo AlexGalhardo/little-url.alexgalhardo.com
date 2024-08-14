@@ -1,6 +1,6 @@
-import * as crypto from "crypto";
+import * as crypto from "node:crypto";
 
-export default function GenerateRandomToken(tokenLength: number = 5): string {
+export default function generateRandomToken(tokenLength: number = 5): string {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;
     let token = "";
