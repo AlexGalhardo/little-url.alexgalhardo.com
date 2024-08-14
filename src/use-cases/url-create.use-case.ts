@@ -1,7 +1,7 @@
 import generateRandomToken from "src/utils/generate-random-token.util";
 import { UrlsRepositoryPort } from "src/repositories/urls.repository";
 import { APP_URL } from "src/utils/constants.util";
-import validateUrlSchema from "src/validators/url.validator";
+import UrlValidator from "src/validators/url.validator";
 import { ErrorsMessages } from "src/utils/errors-messages.util";
 
 interface UrlCreateUseCaseResponse {
@@ -25,7 +25,7 @@ export default class UrlCreateUseCase implements UrlCreateUseCasePort {
 
     async execute(urlCreatePayload: UrlCreateUseCaseDTO, userId: string | null): Promise<UrlCreateUseCaseResponse> {
         try {
-            validateUrlSchema.parse(urlCreatePayload);
+            UrlValidator.parse(urlCreatePayload);
 
             try {
                 await fetch(urlCreatePayload.url);

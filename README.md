@@ -31,6 +31,7 @@ https://github.com/user-attachments/assets/20d54596-9e0f-4e85-b745-a6fe0f2b175f
 
 ## How to improve
 - [ ] API Gateway using KrankeD
+- [ ] Add PM2 process manager
 - [ ] Kubernetes for horizontal scaling
 - [ ] Terraform
 - [ ] Integration tests
